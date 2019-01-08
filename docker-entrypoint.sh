@@ -3,24 +3,7 @@
 # This script will run as the postgres user due to the Dockerfile USER directive
 set -e
 
-# Setup postgres CONF file
-source /setup-conf.sh
-
-# Setup ssl
-source /setup-ssl.sh
-
-# Setup pg_hba.conf
-source /setup-pg_hba.sh
-
-if [ -z "$REPLICATE_FROM" ]; then
-	# This means this is a master instance. We check that database exists
-	echo "Setup master database"
-	source /setup-database.sh
-else
-	# This means this is a slave/replication instance.
-	echo "Setup slave database"
-	source /setup-replication.sh
-fi
+source /env-data.sh
 
 # Running extended script or sql if provided.
 # Useful for people who extends the image.
